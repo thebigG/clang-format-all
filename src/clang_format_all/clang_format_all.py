@@ -20,7 +20,7 @@ def parse_args():
     parser.add_argument('--check_all',
                         help='Only check files without modifying them. Returns non-zero value on failure;'
                              'useful for CI workflows.',
-                        action="store_false")
+                        action="store_true")
 
     args = parser.parse_args()
     return args
@@ -55,7 +55,7 @@ def format_all_walk_recursive(root_dir: str):
             path = Path(os.path.join(root, file))
             if is_cpp_or_c_file(path):
                 if subprocess.run(["clang-format", "--Werror", "-style=file",
-                                   path]).returncode != 0:
+                                   path],capture_output=True).returncode != 0:
                     logger.info("\"%s\": An error occurred while parsing this file.", path)
                     exit(1)
                 else:
