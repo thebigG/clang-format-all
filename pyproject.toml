@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "pyyaml==6.0", "twine"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "clang-format-all"
+name = "clang_format_all"
 version = "0.0.1"
 authors = [
   { name="Lorenzo Gomez", email="yunior.eury@gmail.com" },
@@ -19,8 +19,8 @@ classifiers = [
 ]
 
 [project.scripts]
-clang-format-all = "clang_format_all.clang_format_all:main"
+clang_format_all = "clang_format_all.clang_format_all:main"
 
 [project.urls]
-"Homepage" = "https://github.com/thebigG/clang-format-all"
-"Bug Tracker" = "https://github.com/thebigG/clang-format-all/issues"
+"Homepage" = "https://github.com/thebigG/clang_format_all"
+"Bug Tracker" = "https://github.com/thebigG/clang_format_all/issues"

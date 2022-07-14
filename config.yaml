@@ -1,0 +1,7 @@
+root_dir:
+  "."
+exclude_dirs:
+  - "fmt"
+
+#When true, files will only be checked. None will be modified.
+check_all: true
