@@ -37,8 +37,6 @@ def check_all_walk_recursive(root_dir: str, exclude_files=None, file_extensions=
             path = Path(os.path.join(root, file))
             if str(path) in exclude_files:
                 continue
-            print(file_extensions)
-            print(path.suffix)
             if path.suffix in file_extensions:
                 if subprocess.run(["clang-format", "--dry-run", "--Werror", "-style=file",
                                    path]).returncode != 0:
