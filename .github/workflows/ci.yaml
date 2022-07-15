@@ -1,0 +1,39 @@
+name: Run Python Tests
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Python 3
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install virtualenv
+          sudo apt-get update
+          sudo apt-get install make
+      - name: Build Src
+        run: |
+          make virtual-env
+          source venv/bin/activate
+          make build-src
+
+      - name: Build
+        run: |
+          make virtual-env
+          source venv/bin/activate
+          make build
+
