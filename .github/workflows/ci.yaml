@@ -25,6 +25,7 @@ jobs:
           pip install virtualenv
           sudo apt-get update
           sudo apt-get install make
+          pip install build
       - name: Build Src
         run: |
           make virtual-env
