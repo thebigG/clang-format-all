@@ -1,30 +1,27 @@
 # Format All The Things!
 
-This is a bash script that will run `clang-format -i` on your code.
+This is a python script that will run `clang-format -i` on your code.
 
-Features:
-
- * Finds the right path to `clang-format` on Ubuntu/Debian, which encode the
-   LLVM version in the `clang-format` filename
- * Fixes files recursively
- * Detects the most common file extensions used by C/C++ projects
+Install:
+```
+pip install
+```
 
 Basic usage:
 
-    clang-format-all src/  
-    ./check-all.py --root_dir src/
+    clang_format_all --config config.yaml
 
-`check-all.py`	will not modify files, it will just check them. When any file is non-compliant to style, it returns a non-zero error code. This is extremely useful for CI workflows.
-Advanced usage:
+The yaml file should look like this:
+```
+root_dir: "."
 
-    clang-format-all project1/ project2/ project3/
+#When true, files will only be checked. None will be modified.
+check_all: true
 
-**Note:** While `clang-format` is a powerful tool for enforcing a consistent
-coding standard, you should be aware that different versions of `clang-format`
-may format the same code differently. As one example that I know of, in C++ long
-vector or set literals (say, a dozen elements or more) in `clang-format` 3.7 are
-generally formatted with one entry per line, but under `clang-format` 3.5 the
-same literals may be formatted with multiple entries per line if the entries are
-short enough. Therefore if multiple people are contributing to the same project,
-you should strive to ensure that they're all using the same version of
-`clang-format`.
+file_extensions: ['.cpp', '.cc', '.C', 'CPP', '.c++', 'cp', '.cxx', '.h', '.hh', '.hpp']
+
+exclude_dirs:
+  - "fmt"
+  - "simple_gpio"
+  - "build"
+```
