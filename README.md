@@ -4,11 +4,6 @@
 
 This is a python script that will run `clang-format -i` on your code.
 
-Install:
-```
-pip install
-```
-
 Basic usage:
 
     clang_format_all --config config.yaml
