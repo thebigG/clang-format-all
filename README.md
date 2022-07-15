@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/clang-format-all.svg)](https://badge.fury.io/py/clang-format-all)
+[![Run Python Tests](https://github.com/thebigG/clang_format_all/actions/workflows/ci.yaml/badge.svg)](https://github.com/thebigG/clang_format_all/actions/workflows/ci.yaml)
 # Format All The Things!
 
 This is a python script that will run `clang-format -i` on your code.
