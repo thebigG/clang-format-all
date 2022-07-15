@@ -23,22 +23,23 @@ def parse_args():
     return args
 
 
-def is_cpp_or_c_file(path: Path):
-    return path.suffix in ['.cpp', '.cc', '.C', 'CPP', '.c++', 'cp', '.cxx', '.h', '.hh', '.hpp']
-
-
-def check_all_walk_recursive(root_dir: str, exclude_files=None):
+def check_all_walk_recursive(root_dir: str, exclude_files=None, file_extensions=None):
     if exclude_files is None:
         exclude_files = set()
+    if file_extensions is None:
+        file_extensions = []
+
     for root, dirs, files in os.walk(root_dir):
         if dirs:
             for d in dirs:
-                check_all_walk_recursive((os.path.join(root, d)), exclude_files)
+                check_all_walk_recursive((os.path.join(root, d)), exclude_files, file_extensions)
         for file in files:
             path = Path(os.path.join(root, file))
             if str(path) in exclude_files:
                 continue
-            if is_cpp_or_c_file(path):
+            print(file_extensions)
+            print(path.suffix)
+            if path.suffix in file_extensions:
                 if subprocess.run(["clang-format", "--dry-run", "--Werror", "-style=file",
                                    path]).returncode != 0:
                     logger.info("\"%s\": does not comply to format according to clang-format", path)
@@ -47,18 +48,20 @@ def check_all_walk_recursive(root_dir: str, exclude_files=None):
                     logger.info("\"%s\": looks fine according to clang-format", path)
 
 
-def format_all_walk_recursive(root_dir: str, exclude_files=None):
+def format_all_walk_recursive(root_dir: str, exclude_files=None, file_extensions=None):
     if exclude_files is None:
         exclude_files = set()
+    if file_extensions is None:
+        file_extensions = []
     for root, dirs, files in os.walk(root_dir):
         if dirs:
             for d in dirs:
-                format_all_walk_recursive((os.path.join(root, d)))
+                format_all_walk_recursive((os.path.join(root, d)), file_extensions)
         for file in files:
             path = Path(os.path.join(root, file))
             if str(path) in exclude_files:
                 continue
-            if is_cpp_or_c_file(path):
+            if path.suffix in file_extensions:
                 if subprocess.run(["clang-format", "--Werror", "-style=file",
                                    path], capture_output=True).returncode != 0:
                     logger.info("\"%s\": An error occurred while parsing this file.", path)
@@ -89,14 +92,24 @@ def get_resolved_paths(unresolved_paths: [str]) -> [str]:
 def main():
     args = parse_args()
     excluded_dirs = None
-    with open(args.exclude_dirs) as yaml_stream:
-        excludes = yaml.load(yaml_stream, Loader=yaml.CSafeLoader)
-        if 'exclude_dirs' not in excludes:
-            logger.error(f"No key 'exclude_dirs' found in {args.exclude_dirs}")
+    with open(args.config) as yaml_stream:
+        config = yaml.load(yaml_stream, Loader=yaml.CSafeLoader)
+        if 'exclude_dirs' not in config:
+            logger.error(f"No key 'exclude_dirs' found in {args.config}")
             return -1
-        excluded_dirs = get_resolved_paths(excludes['exclude_dirs'])
+        if 'root_dir' not in config:
+            logger.error(f"No key 'root_dir' found in {args.config}")
+            return -1
+        if 'check_all' not in config:
+            logger.error(f"No key 'check_all' found in {args.config}")
+            return -1
+        if 'file_extensions' not in config:
+            logger.error(f"No key 'file_extensions' found in {args.config}")
+            return -1
 
-    if args.check_all:
-        check_all_walk_recursive(str(Path(args.root_dir).resolve()), excluded_dirs)
+        excluded_dirs = get_resolved_paths(config['exclude_dirs'])
+
+    if config['check_all'] is True:
+        check_all_walk_recursive(str(Path(config["root_dir"]).resolve()), excluded_dirs, config['file_extensions'])
     else:
-        format_all_walk_recursive(args.root_dir, excluded_dirs)
+        format_all_walk_recursive(str(Path(config["root_dir"]).resolve()), excluded_dirs, config['file_extensions'])
