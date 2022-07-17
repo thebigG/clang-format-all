@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools>=61.0", "pyyaml==6.0"]
+requires = ["setuptools>=61.0", "pyyaml==6.0", "twine", "build"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "clang_format_all"
-version = "0.0.2"
+version = "0.1.0"
 authors = [
   { name="Lorenzo Gomez", email="yunior.eury@gmail.com" },
 ]
@@ -16,6 +16,10 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "pyyaml==6.0",
 ]
 
 [project.scripts]
