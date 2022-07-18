@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "clang_format_all"
-version = "0.1.0"
+version = "0.1.2"
 authors = [
   { name="Lorenzo Gomez", email="yunior.eury@gmail.com" },
 ]

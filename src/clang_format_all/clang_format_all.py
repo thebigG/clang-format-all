@@ -59,7 +59,7 @@ def format_all_walk_recursive(root_dir: str, exclude_files=None, file_extensions
             if str(path) in exclude_files:
                 continue
             if path.suffix in file_extensions:
-                if subprocess.run(["clang-format", "--Werror", "-style=file",
+                if subprocess.run(["clang-format", "--Werror", "-style=file", "-i",
                                    path], capture_output=True).returncode != 0:
                     logger.info("\"%s\": An error occurred while parsing this file.", path)
                     exit(-1)
