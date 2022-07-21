@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "clang_format_all"
-version = "0.1.2"
+version = "0.1.4"
 authors = [
   { name="Lorenzo Gomez", email="yunior.eury@gmail.com" },
 ]
 description = "Format entire directories of source files with clang-format. This tool also allows to check for formatting without modifying files."
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.7"
+requires-python = ">=3.6"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
