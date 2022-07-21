@@ -19,6 +19,8 @@ file_extensions: ['.cpp', '.cc', '.C', 'CPP', '.c++', 'cp', '.cxx', '.h', '.hh',
 
 exclude_dirs:
   - "fmt"
-  - "simple_gpio"
+  - "simple_gpio"   
   - "build"
 ```
+
+This tool uses clang-format. For supported languages/options supported in clang-format look [here](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
